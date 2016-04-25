@@ -29,18 +29,26 @@ for server in many_server:
 	index+=1
 	
 
-#env =raw_input ("Enviroment -> ") 
+env =raw_input ("Enviroment -> ") 
+if env == "same":
+	pass
+else:
+	worksheet.update_acell('a3', env)
+
+ 
+softw = raw_input ("Software(Version)->")
+if softw == "same":
+	pass
+else:
+	worksheet.update_acell('c3',softw)
+
+num= raw_input ("Count -> ")
+if num == "same":
+	pass
+else: 
+	worksheet.update_acell('f3',num)
 
 
-#worksheet.update_acell('a3', env)
-
-#softw = raw_input ("Software(Version)->")
-
-#worksheet.update_acell('c3',softw)
-
-#num= raw_input ("Count -> ")
-
-#worksheet.update_acell('f3',num)
 mouse = raw_input('Enter range [begin] -> ')
 if mouse != "top":
 	#cat = raw_input ('Enter range [end] -> ')
@@ -48,8 +56,14 @@ if mouse != "top":
 	indexQ= index-2
 	rat = indexQ+int_mouse
 	cell_list = worksheet.range('g%d:g%d' % (int_mouse,rat))
+	softw = raw_input ("Software(Version)->")
+	worksheet.update_acell('c%d'% (int_mouse),softw)
 else:
 	cell_list = worksheet.range('g3:g%d' % index)
+	softw = raw_input ("Software(Version)->")
+	worksheet.update_acell('c3',softw)
+
+
 
 
 for cell in cell_list:
