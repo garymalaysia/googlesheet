@@ -27,7 +27,7 @@ else{
 
 }
 	
-print "Done! Go check 'no_comma.txt'\n";
+print "Executing python script...\n";
 my $status = system ("python google.py");
 
 

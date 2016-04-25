@@ -11,10 +11,9 @@ scope=['https://spreadsheets.google.com/feeds']
 
 credentials = SignedJwtAssertionCredentials(json_key['client_email'], json_key['private_key'].encode(), scope)
 gc= gspread.authorize(credentials)
-sh =gc.open_by_url('https://docs.google.com/spreadsheets/d/1NxvA9OW3XM_QfrHwgrTIzNs7HezglTkww2uKov_Iq3I/edit#gid=2081839951')
+sh =gc.open_by_url('https://docs.google.com/spreadsheets/d/1e6jQMBCbpCO6dzpBP9iwKNX_uYeWXsk-k376lO_8HJI/edit#gid=0')
 #worksheet_list= sh.worksheets()
 sheet = raw_input ('Which Worksheet -> ')
-
 worksheet=sh.worksheet("%s" % sheet)
 
 #worksheet=sh.worksheet("Sheet2")
@@ -34,13 +33,6 @@ if env == "same":
 	pass
 else:
 	worksheet.update_acell('a3', env)
-
- 
-softw = raw_input ("Software(Version)->")
-if softw == "same":
-	pass
-else:
-	worksheet.update_acell('c3',softw)
 
 num= raw_input ("Count -> ")
 if num == "same":
