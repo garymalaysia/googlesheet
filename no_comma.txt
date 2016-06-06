@@ -1,1 +1,6 @@
-dd-ap23.test.ise.com
+51.3.62.201
+dc-sit101.test.ise.com
+tc-bat161.test.ise.com
+tc-mat254.test.ise.com
+tc-oat07b.test.ise.com
+tc-rsa01-01.test.ise.com

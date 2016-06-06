@@ -11,7 +11,7 @@ scope=['https://spreadsheets.google.com/feeds']
 
 credentials = SignedJwtAssertionCredentials(json_key['client_email'], json_key['private_key'].encode(), scope)
 gc= gspread.authorize(credentials)
-sh =gc.open_by_url('https://docs.google.com/spreadsheets/d/1e6jQMBCbpCO6dzpBP9iwKNX_uYeWXsk-k376lO_8HJI/edit#gid=0')
+sh =gc.open_by_url('https://docs.google.com/spreadsheets/d/1jHNzmD5yaAtZeDU2XJ-xDdfm3rzsiNrydRiRaiRgGUc/edit#gid=0')
 #worksheet_list= sh.worksheets()
 sheet = raw_input ('Which Worksheet -> ')
 worksheet=sh.worksheet("%s" % sheet)
@@ -49,11 +49,17 @@ if mouse != "top":
 	rat = indexQ+int_mouse
 	cell_list = worksheet.range('g%d:g%d' % (int_mouse,rat))
 	softw = raw_input ("Software(Version)->")
-	worksheet.update_acell('c%d'% (int_mouse),softw)
+	if softw == "same":
+		pass
+	else:
+		worksheet.update_acell('c%d'% (int_mouse),softw)
 else:
 	cell_list = worksheet.range('g3:g%d' % index)
 	softw = raw_input ("Software(Version)->")
-	worksheet.update_acell('c3',softw)
+	if softw == "same":
+		pass
+	else:
+		worksheet.update_acell('c3',softw)
 
 
 
