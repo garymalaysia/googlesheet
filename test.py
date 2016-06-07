@@ -35,33 +35,36 @@ f= open ('text.txt','r+' )
 
 for plugin_num in plugin_list:
 	count +=1
+	count_2+=1
 	if plugin_num==plugin_id2:
 
-		output_list1= str(re.split('\n', worksheet.acell('M%d'%count).value))
+		#output_list1= str(re.split('\n', worksheet.acell('M%d'%count).value))
+		output_list1= str(worksheet.acell('M%d'%count).value).split('\n')
 		host =  worksheet.acell('E%d'%count).value
-		output_list1= re.sub('\['," ",output_list1)
-		output_list1= re.sub('\]'," ",output_list1)
-		#output_list1= str(re.split('\n+', output_list1))
-		x.write(host+' '+output_list1+'\n')
-		print count
+		host= str(host.split("\n"))
 
-for plugin_num in plugin_list:
-	count_2+=1
+		F= host+"->"+output_list1[1]+"\n"
+		F=F.split("->")
+		#print F[0]
+
+
 	if plugin_num == plugin_id:
 		index+=1
-		host= worksheet.acell('E%d'%count_2).value
-		output_list = str(re.split('\n+',worksheet.acell('M%d'%count_2).value))
-
-		output_list= re.sub('\['," ",output_list)
-		output_list= re.sub('\]'," ",output_list)
-		#output_list= str(re.split('\n+', output_list))
-				#print count_2, host
 		
-		#f.write(host)
-		f.write(host+" , "+ output_list+'\n')
-		#f.write(host+" , "+ output_list1)
+		output_list = str(worksheet.acell('M%d'%count_2).value).split('\n')
+		host1= worksheet.acell('E%d'%count_2).value
+		host1= str(host1.split("\n"))
+		X= host1+"->" + output_list[16]+"\n"
+		X=X.split("->")
+		#print X[0]
 
-print "total index :", index
-f.closed		
+	
+		if "Microsoft" in F[1] and "Credentialed checks : no" in X[1]:
+			if F[0]== X[0]:
+				print F[0]
+
+
+
+f.closed
 x.closed
-system('perl perl_test.pl')
+#('perl perl_test.pl')

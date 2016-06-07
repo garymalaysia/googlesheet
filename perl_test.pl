@@ -1,35 +1,36 @@
 #!/usr/local/bin/perl
+use List::Compare;
+use Array::Utils;
+ use strict;
+ #use warnings;
 
-open $fh1, '<', 'text.txt' or die $!;
+open my $fh1, '<', 'text.txt' or die $!;
 
 #seecond data file
-open $fh2, '<', 'text2.txt' or die $!;
+open my $fh2, '<', 'text2.txt' or die $!;
 
 #output file
 open OUTPUT, '>', 'cCheck.txt' or die $!;
+open my $fh3, '<', 'text3.txt' or die $!;
+open my $fh4, '<', 'text4.txt' or die $!;
 
-$x=0;
-while ( !eof($fh1) and !eof ($fh2)) {
+while ( !eof($fh1) and !eof ($fh2) ) {
 
-	$line1 = <$fh1>;
-	$line2 = <$fh2>;
-	@host = split /,/,$line1;
-	@os = split /,/ , $line2;
-	$size_host=@host;
-	$size_os = @os;
-	print "@os[0]\n", ;
-#@string= $os[x].''.$os[1];
-#print $out @host[0];
-#if ($host[0]==$os[0]){
+	my $line1 = <$fh1>;
+	my $line2 = <$fh2>;
+	my $line3 = <$fh3>;
+	my $line4 = <$fh4>;
+	my @host = split /,/,$line1;
+	my @os = split /,/ , $line2;
+	my @line3 = split / /, $line3;
 	
-#print OUTPUT @string, "\n\n" if @host[16]=~ m/'Credentialed checks : no'/ ;
+	my $string1=  join(' ', @host[0]), "\n\n" if @host[16]=~ /'Credentialed checks : no'/;
+	my @string1= split(/ /, $string1);
+	my $string2=  @os[0], "\n\n" if  @os[1]=~ /Microsoft/;	
+	#my @string1 = split / /,$os[0];
+	#my @string2 = split /''/, $host[0];
+print @string1[0];
 
-#}
-#{
-	#@string= @host[0].''.@host[16];
-
-#}
-#print $out "$os[1]\n" ;
 
 }
 
@@ -42,4 +43,6 @@ print "Executing perl script...\n";
 
 close ($fh1);
 close($fh2);
-close ($out);
+close($fh3);
+close($fh4);
+close (OUTPUT);
