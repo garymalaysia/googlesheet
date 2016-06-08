@@ -1,7 +1,6 @@
 import json
 import gspread
-from os import system
-import re
+
 from array import * 
 
 #hardy-binder-128720@appspot.gserviceaccount.com share this link with google spreadsheet
@@ -13,12 +12,13 @@ scope=['https://spreadsheets.google.com/feeds']
 
 credentials = SignedJwtAssertionCredentials(json_key['client_email'], json_key['private_key'].encode(), scope)
 gc= gspread.authorize(credentials)
-sh =gc.open_by_url('https://docs.google.com/spreadsheets/d/1oGD5icabw-9ktcoqeh3dR8HTv3Mf2ZeasEOvnEnSv8s/edit')
+sh =gc.open_by_url('https://docs.google.com/spreadsheets/d/1zsxkHTalb2VtNGq4L7uBCbmnacLHASOaEa5KjTwrhhY/edit')
 #worksheet_list= sh.worksheets()
 #sheet = raw_input ('Which Worksheet -> ')
 #worksheet=sh.worksheet("%s" % sheet)
-worksheet=sh.worksheet("Site_X_DMZ_m900xn")
+worksheet=sh.worksheet("Site_X_Corp_Workstations_3xlzal")
 count=0
+count_2=0
 index=0
 #val = worksheet.acell('A1').value
 plugin_id= "19506"
@@ -28,41 +28,45 @@ plugin_list = worksheet.col_values(1)
 #output_list = worksheet.col_values(13)
 
 #print output_list,'\n'
-f= open('text.txt', 'r+')
-
+x= open('text2.txt', 'r+')
+f= open ('text.txt','r+' )
 
 
 for plugin_num in plugin_list:
-	count+=1
-	if plugin_num == plugin_id :
+	count +=1
+	count_2+=1
+	if plugin_num==plugin_id2:
+
+		#output_list1= str(re.split('\n', worksheet.acell('M%d'%count).value))
+		output_list1= str(worksheet.acell('M%d'%count).value).split('\n')
+		host =  worksheet.acell('E%d'%count).value
+		host= str(host.split("\n"))
+
+		F= host+"->"+output_list1[1]+"\n"
+		F=F.split("->")
+		#print F[0]
+
+for plugin_num in plugin_list:
+	if plugin_num == plugin_id:
 		index+=1
-		host= worksheet.acell('E%d'%count).value
-		output_list = worksheet.acell('M%d'%count).value
-		output_list= str(re.split('\n+', output_list))
-		print count, host
 		
+		output_list = str(worksheet.acell('M%d'%count_2).value).split('\n')
+		host1= worksheet.acell('E%d'%count_2).value
+		host1= str(host1.split("\n"))
+		X= host1+"->" + output_list[16]+"\n"
+		X=X.split("->")
+		print X[0]
 
-		f.write(host+" ="+" ,"+ output_list+'\n\n')
-
-
-print "total index :", index
-f.closed		
-
-system('perl cCheck.pl')
-
-
-
-
-
-
+		#print "***********Windows machines with no Credential ckecks************"
+		#if "Microsoft" in F[1] and "Credentialed checks : no" in X[1]:
+		#	if F[0]== X[0]:
+		#		print F[0],"\n"
+print "total index:",  index
 
 
-
-
-
-
-
-
+f.closed
+x.closed
+#('perl perl_test.pl')
 
 
 

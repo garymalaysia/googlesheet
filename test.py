@@ -1,7 +1,6 @@
 import json
 import gspread
-from os import system
-import re
+
 from array import * 
 
 #hardy-binder-128720@appspot.gserviceaccount.com share this link with google spreadsheet
@@ -13,13 +12,15 @@ scope=['https://spreadsheets.google.com/feeds']
 
 credentials = SignedJwtAssertionCredentials(json_key['client_email'], json_key['private_key'].encode(), scope)
 gc= gspread.authorize(credentials)
-sh =gc.open_by_url('https://docs.google.com/spreadsheets/d/1oGD5icabw-9ktcoqeh3dR8HTv3Mf2ZeasEOvnEnSv8s/edit#gid=2072757837')
+sh =gc.open_by_url('https://docs.google.com/spreadsheets/d/1oGD5icabw-9ktcoqeh3dR8HTv3Mf2ZeasEOvnEnSv8s/edit')
+sh2=gc.open_by_url('https://docs.google.com/spreadsheets/d/1NDO3rCLJYm3UOwQLeWF5RrTnsq65TCHK7AUPnwFsbNw/edit#gid=0')
 #worksheet_list= sh.worksheets()
 #sheet = raw_input ('Which Worksheet -> ')
 #worksheet=sh.worksheet("%s" % sheet)
 worksheet=sh.worksheet("Site_X_DMZ_m900xn")
+worksheet2=sh2.worksheet("Sheet1")
 count=0
-count_2=0
+count_2=1
 index=0
 #val = worksheet.acell('A1').value
 plugin_id= "19506"
@@ -35,7 +36,7 @@ f= open ('text.txt','r+' )
 
 for plugin_num in plugin_list:
 	count +=1
-	count_2+=1
+	
 	if plugin_num==plugin_id2:
 
 		#output_list1= str(re.split('\n', worksheet.acell('M%d'%count).value))
@@ -45,25 +46,41 @@ for plugin_num in plugin_list:
 
 		F= host+"->"+output_list1[1]+"\n"
 		F=F.split("->")
-		#print F[0]
+		print F
 
 
 	if plugin_num == plugin_id:
 		index+=1
 		
-		output_list = str(worksheet.acell('M%d'%count_2).value).split('\n')
-		host1= worksheet.acell('E%d'%count_2).value
+		output_list = str(worksheet.acell('M%d'%count).value).split('\n')
+		host1= worksheet.acell('E%d'%count).value
 		host1= str(host1.split("\n"))
 		X= host1+"->" + output_list[16]+"\n"
 		X=X.split("->")
-		#print X[0]
+		print X
+		print "-----------------"
 
-	
+		#print "***********Windows machines with no Credential ckecks************"
 		if "Microsoft" in F[1] and "Credentialed checks : no" in X[1]:
 			if F[0]== X[0]:
-				print F[0]
+				count_2+=1
+				many_wins=F[0]
+				print many_wins
+				cell_list = worksheet2.range('a1:a%d' % count_2)
+				
 
+			else :
+				print "No Window/s Machine with no Credentialed checks" 
 
+many_wins=many_wins.split(',')
+
+for cell in cell_list:
+	index2 = 0
+	for win_machine in many_wins:
+	
+		cell_list[index2].value=win_machine
+		index2 +=1
+worksheet2.update_cells(cell_list)
 
 f.closed
 x.closed
