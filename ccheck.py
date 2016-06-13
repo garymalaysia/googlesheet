@@ -1,6 +1,6 @@
 import json
 import gspread
-
+import re
 from array import * 
 
 #hardy-binder-128720@appspot.gserviceaccount.com share this link with google spreadsheet
@@ -12,69 +12,40 @@ scope=['https://spreadsheets.google.com/feeds']
 
 credentials = SignedJwtAssertionCredentials(json_key['client_email'], json_key['private_key'].encode(), scope)
 gc= gspread.authorize(credentials)
-sh =gc.open_by_url('https://docs.google.com/spreadsheets/d/1zsxkHTalb2VtNGq4L7uBCbmnacLHASOaEa5KjTwrhhY/edit')
+sh =gc.open_by_url('https://docs.google.com/spreadsheets/d/12IaxqL2CmyJG2dzQP6hKtSUk5DnmoS3pgaD3R4uBtp8/edit#gid=213942210')
+sh2=gc.open_by_url('https://docs.google.com/spreadsheets/d/1NDO3rCLJYm3UOwQLeWF5RrTnsq65TCHK7AUPnwFsbNw/edit#gid=0')
 #worksheet_list= sh.worksheets()
 #sheet = raw_input ('Which Worksheet -> ')
 #worksheet=sh.worksheet("%s" % sheet)
-worksheet=sh.worksheet("Site_X_Corp_Workstations_3xlzal")
-count=0
-count_2=0
-index=0
-#val = worksheet.acell('A1').value
-plugin_id= "19506"
-plugin_id2="11936"
-plugin_list = worksheet.col_values(1)
-#host_list = worksheet.col_values(5)
-#output_list = worksheet.col_values(13)
+worksheet=sh.worksheet("Site_X_Test_Servers_g2tsb5.csv")
+worksheet2=sh2.worksheet("Sheet1")
 
-#print output_list,'\n'
-x= open('text2.txt', 'r+')
-f= open ('text.txt','r+' )
+cell_list=worksheet2.range('f2:f2')
 
+s=open('text.txt','r')
+wins=s.read()
+many_wins=wins.split(",")
 
-for plugin_num in plugin_list:
-	count +=1
-	count_2+=1
-	if plugin_num==plugin_id2:
+print many_wins[0]
 
-		#output_list1= str(re.split('\n', worksheet.acell('M%d'%count).value))
-		output_list1= str(worksheet.acell('M%d'%count).value).split('\n')
-		host =  worksheet.acell('E%d'%count).value
-		host= str(host.split("\n"))
-
-		F= host+"->"+output_list1[1]+"\n"
-		F=F.split("->")
-		#print F[0]
-
-for plugin_num in plugin_list:
-	if plugin_num == plugin_id:
-		index+=1
-		
-		output_list = str(worksheet.acell('M%d'%count_2).value).split('\n')
-		host1= worksheet.acell('E%d'%count_2).value
-		host1= str(host1.split("\n"))
-		X= host1+"->" + output_list[16]+"\n"
-		X=X.split("->")
-		print X[0]
-
-		#print "***********Windows machines with no Credential ckecks************"
-		#if "Microsoft" in F[1] and "Credentialed checks : no" in X[1]:
-		#	if F[0]== X[0]:
-		#		print F[0],"\n"
-print "total index:",  index
-
-
-f.closed
-x.closed
-#('perl perl_test.pl')
+#many_wins=many_wins(']')
+#Many_wins=str(re.sub(r'\W','',many_wins))
+#many_wins=str(re.sub("\[","\n",many_wins))
+#many_wins=many_wins.split()
 
 
 
+for cell in cell_list:
+	index2 = 0
+	for win_machine in many_wins:
+	
+		cell_list[index2].value=win_machine
+		index2 +=1
+worksheet2.update_cells(cell_list)
 
+#worksheet2.update_acell('%s%d'% (colA,scan) , mac+str(index))
 
-
-
-
+s.closed
 
 
 
