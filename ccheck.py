@@ -20,7 +20,7 @@ sh2=gc.open_by_url('https://docs.google.com/spreadsheets/d/1NDO3rCLJYm3UOwQLeWF5
 worksheet=sh.worksheet("Site_X_Test_Servers_g2tsb5.csv")
 worksheet2=sh2.worksheet("Sheet1")
 
-cell_list=worksheet2.range('f2:f2')
+cell_list=worksheet2.range('f2:f3')
 
 s=open('text.txt','r')
 wins=s.read()
